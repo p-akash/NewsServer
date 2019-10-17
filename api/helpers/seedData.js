@@ -47,39 +47,40 @@ const parseTW = (newsList, type, subtype) => {
   return data;
 };
 //upsert inshorts data
-const syncIns = async () => {
-  const { qs, type, subtype } = {
-    qs: "category=top_stories&include_card_data=true",
-    type: "ins",
-    subtype: "top_stories"
-  };
+const syncIns = async subtype => {
+  // const { qs, type, subtype } = {
+  //   qs: "category=top_stories&include_card_data=true",
+  //   type: "ins",
+  //   subtype: "top_stories"
+  // };
+  const qs = "category=top_stories&include_card_data=true";
+  const type = "ins";
   try {
-    if (type === "ins") {
-      const info = await ApiService.getAllNews(qs);
-      const response = parseQs(
-        info && info.data && info.data.news_list,
-        type,
-        subtype
-      );
-      response.forEach(async d => {
-        await News.update({ newsId: d.newsId }, { $set: d }, { upsert: true });
-      });
-      //News.create(response);
+    const info = await ApiService.getAllNews(qs);
+    const response = parseQs(
+      info && info.data && info.data.news_list,
+      type,
+      subtype
+    );
+    response.forEach(async d => {
+      await News.update({ newsId: d.newsId }, { $set: d }, { upsert: true });
+    });
+    //News.create(response);
 
-      return { message: "success" };
-    }
+    return { message: "success" };
   } catch (err) {
     console.log(err);
     return { success: false, message: err.message };
   }
 };
 //upsert twitter data
-const syncTW = async () => {
-  const { qs, type, subtype } = {
-    qs: "usnews",
-    type: "tw",
-    subtype: "hashtag"
-  };
+const syncTW = async (qs, subtype) => {
+  // const { qs, type, subtype } = {
+  //   qs: "usnews",
+  //   type: "tw",
+  //   subtype: "hashtag"
+  // };
+  const type = "tw";
   try {
     client.get(
       `https://api.twitter.com/1.1/tweets/search/30day/devsearch.json?query=%23${qs}`,

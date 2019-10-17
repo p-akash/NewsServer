@@ -71,16 +71,21 @@ if (env === "production") {
 const job = new CronJob(" */15 * * * *", async () => {
   const d = new Date();
   //upsert news data from twitter and inshorts
-  const res = await seedData.syncIns();
-  const res2 = await seedData.syncTW();
-  console.log("At Ten Minutes:", d, res, res2);
+  const resIns = await seedData.syncIns("top_stories");
+  const resTw = await seedData.syncTW("usnews", "hashtag");
+  console.log("Data upserted At:", d, resIns, resTw);
 });
 job.start();
 // run automatically on given time for exmaple: "50 50 10 * * *" will execute on 10:50:50AM
-const clear = new CronJob(" 50 14 11 * * *", async () => {
+const clear = new CronJob(" 50 59 15 * * *", async () => {
   //clear all data from database
-  const res = await seedData.clearData();
-  console.log("Clear", res);
+  const resClear = await seedData.clearData();
+  console.log("Clear", resClear);
+  const d = new Date();
+  //upsert news data from twitter and inshorts
+  const resIns = await seedData.syncIns("top_stories");
+  const resTw = await seedData.syncTW("usnews", "hashtag");
+  console.log("Data upserted At:", d, resIns, resTw);
 });
 clear.start();
 export default app;
