@@ -108,8 +108,36 @@ const syncTW = async (qs, subtype) => {
 const clearData = async () => {
   return News.remove({});
 };
+
+//clear exceed data
+const clearExceedData = async () => {
+  try {
+    const subType = await News.distinct("subtype");
+    subType.map(async d => {
+      const count = await News.find({ subtype: d }).count();
+      console.log(count);
+      if (count > 100) {
+        const c = count - 100;
+        const id = await News.aggregate()
+          .match({ subtype: d })
+          .project({ _id: 1 })
+          .sort({ createdAt: 1 })
+          .limit(c);
+        const idArray = id.map(a => a._id);
+        console.log(idArray);
+        const removed = await News.remove({ _id: { $in: idArray } });
+        console.log(removed);
+      }
+    });
+    return { success: true };
+  } catch (error) {
+    return { success: false, message: error };
+  }
+};
+
 export default generateControllers(News, {
   syncIns,
   syncTW,
-  clearData
+  clearData,
+  clearExceedData
 });

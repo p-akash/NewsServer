@@ -68,12 +68,14 @@ if (env === "production") {
 }
 
 //run automatically on given time interval for exmaple:" */15 * * * *" will execute on every 15 min(00,15,30,45)
-const job = new CronJob(" */15 * * * *", async () => {
+const job = new CronJob(" */1 * * * *", async () => {
   const d = new Date();
   //upsert news data from twitter and inshorts
   const resIns = await seedData.syncIns("top_stories");
   const resTw = await seedData.syncTW("usnews", "hashtag");
   console.log("Data upserted At:", d, resIns, resTw);
+  const resClear = await seedData.clearExceedData();
+  console.log(resClear);
 });
 job.start();
 // run automatically on given time for exmaple: "50 50 10 * * *" will execute on 10:50:50AM
