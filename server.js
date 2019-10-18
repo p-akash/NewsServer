@@ -73,6 +73,24 @@ const job = new CronJob(" */1 * * * *", async () => {
   //upsert news data from twitter and inshorts
   const resIns = await seedData.syncIns("top_stories");
   const resTw = await seedData.syncTW("usnews", "hashtag");
+  const topic = [
+    "sports",
+    "politics",
+    "technology",
+    "business",
+    "national",
+    "startup",
+    "entertainment",
+    "world",
+    "automobile",
+    "science",
+    "travel",
+    "fashion"
+  ];
+  topic.map(async t => {
+    const resInsTranding = await seedData.syncInsTranding(t);
+    console.log(t, resInsTranding);
+  });
   console.log("Data upserted At:", d, resIns, resTw);
   const resClear = await seedData.clearExceedData();
   console.log(resClear);

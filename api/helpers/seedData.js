@@ -46,7 +46,7 @@ const parseTW = (newsList, type, subtype) => {
   }));
   return data;
 };
-//upsert inshorts data
+//upsert inshorts top_stories data
 const syncIns = async subtype => {
   // const { qs, type, subtype } = {
   //   qs: "category=top_stories&include_card_data=true",
@@ -73,6 +73,34 @@ const syncIns = async subtype => {
     return { success: false, message: err.message };
   }
 };
+
+//upsert inshorts trending topic wise data
+const syncInsTranding = async subtype => {
+  // const { qs, type, subtype } = {
+  //   qs: "category=top_stories&include_card_data=true",
+  //   type: "ins",
+  //   subtype: "top_stories"
+  // };
+  const type = "ins";
+  try {
+    const info = await ApiService.getByType(subtype);
+    const response = parseQs(
+      info && info.data && info.data.news_list,
+      type,
+      subtype
+    );
+    response.forEach(async d => {
+      await News.update({ newsId: d.newsId }, { $set: d }, { upsert: true });
+    });
+    //News.create(response);
+
+    return { message: "success" };
+  } catch (err) {
+    console.log(err);
+    return { success: false, message: err.message };
+  }
+};
+
 //upsert twitter data
 const syncTW = async (qs, subtype) => {
   // const { qs, type, subtype } = {
@@ -115,18 +143,15 @@ const clearExceedData = async () => {
     const subType = await News.distinct("subtype");
     subType.map(async d => {
       const count = await News.find({ subtype: d }).count();
-      console.log(count);
-      if (count > 100) {
-        const c = count - 100;
+      if (count > 200) {
+        const c = count - 200;
         const id = await News.aggregate()
           .match({ subtype: d })
           .project({ _id: 1 })
           .sort({ createdAt: 1 })
           .limit(c);
         const idArray = id.map(a => a._id);
-        console.log(idArray);
-        const removed = await News.remove({ _id: { $in: idArray } });
-        console.log(removed);
+        await News.remove({ _id: { $in: idArray } });
       }
     });
     return { success: true };
@@ -139,5 +164,6 @@ export default generateControllers(News, {
   syncIns,
   syncTW,
   clearData,
-  clearExceedData
+  clearExceedData,
+  syncInsTranding
 });
