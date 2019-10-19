@@ -6,8 +6,13 @@ const syncInsTranding = async (req, res) => {
   const resInsTranding = await seedData.syncInsTranding(req.body.topic);
   res.status(200).send(resInsTranding);
 };
+const deleteByTopic = async (req, res) => {
+  const deleteRes = await News.remove({ subtype: req.body.topic });
+  res.status(200).send(deleteRes);
+};
 export default generateControllers(News, {
-  syncInsTranding
+  syncInsTranding,
+  deleteByTopic
 });
 
 // import { ApiService } from "../helpers/helper";
