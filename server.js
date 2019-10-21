@@ -9,7 +9,7 @@ import { connect } from "./db";
 import { requireAuth } from "./authorization/auth.middleware";
 import { CronJob } from "cron";
 import seedData from "./api/helpers/seedData";
-
+import { ApiService } from "./api/helpers/helper";
 console.log("THIS IS THE ENVIRONMENT", process.env.NODE_ENV);
 // Declare an app from express
 const app = express();
@@ -73,20 +73,10 @@ const job = new CronJob(" */1 * * * *", async () => {
   //upsert news data from twitter and inshorts
   const resIns = await seedData.syncIns("top_stories");
   const resTw = await seedData.syncTW("usnews", "hashtag");
-  const topic = [
-    "sports",
-    "politics",
-    "technology",
-    "business",
-    "national",
-    "startup",
-    "entertainment",
-    "world",
-    "automobile",
-    "science",
-    "travel",
-    "fashion"
-  ];
+  const trandinTopic = await ApiService.getInsTopic();
+  const insTopic = trandinTopic.data.trending_tags;
+  const topic = insTopic.map(a => a.tag);
+
   topic.map(async t => {
     const resInsTranding = await seedData.syncInsTranding(t);
     console.log(t, resInsTranding);
