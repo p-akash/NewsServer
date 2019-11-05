@@ -10,6 +10,7 @@ import { requireAuth } from "./authorization/auth.middleware";
 import { CronJob } from "cron";
 import seedData from "./api/helpers/seedData";
 import { ApiService } from "./api/helpers/helper";
+
 console.log("THIS IS THE ENVIRONMENT", process.env.NODE_ENV);
 // Declare an app from express
 const app = express();
@@ -67,10 +68,10 @@ if (env === "production") {
   });
 }
 
-//run automatically on given time interval for exmaple:" */15 * * * *" will execute on every 15 min(00,15,30,45)
+// run automatically on given time interval for exmaple:" */15 * * * *" will execute on every 15 min(00,15,30,45)
 const job = new CronJob(" */1 * * * *", async () => {
   const d = new Date();
-  //upsert news data from twitter and inshorts
+  // upsert news data from twitter and inshorts
   const resIns = await seedData.syncIns("top_stories");
   const resTw = await seedData.syncTW("usnews", "hashtag");
   const trandinTopic = await ApiService.getInsTopic();
@@ -88,11 +89,11 @@ const job = new CronJob(" */1 * * * *", async () => {
 job.start();
 // run automatically on given time for exmaple: "50 50 10 * * *" will execute on 10:50:50AM
 const clear = new CronJob(" 50 59 15 * * *", async () => {
-  //clear all data from database
+  // clear all data from database
   const resClear = await seedData.clearData();
   console.log("Clear", resClear);
   const d = new Date();
-  //upsert news data from twitter and inshorts
+  // upsert news data from twitter and inshorts
   const resIns = await seedData.syncIns("top_stories");
   const resTw = await seedData.syncTW("usnews", "hashtag");
   console.log("Data upserted At:", d, resIns, resTw);
