@@ -1426,6 +1426,11 @@ bson-objectid@1.2.3:
   resolved "https://registry.yarnpkg.com/bson-objectid/-/bson-objectid-1.2.3.tgz#af6bc55b0b3f63a9512352f424a2d84c3f17bd5c"
   integrity sha512-Q19/ibJQlO1z4UOJTyaEpWmJ+IdPQfvoKRPBy5GADIbByxyxk6lSN5m82KHMmKCygBnvPl7Wd9kLlG5VVCBWQQ==
 
+bson@^1.1.0:
+  version "1.1.5"
+  resolved "https://registry.yarnpkg.com/bson/-/bson-1.1.5.tgz#2aaae98fcdf6750c0848b0cba1ddec3c73060a34"
+  integrity sha512-kDuEzldR21lHciPQAIulLs1LZlCXdLziXI6Mb/TDkwXhb//UORJNPXgcRs2CuO4H0DcMkpfT3/ySsP3unoZjBg==
+
 bson@~1.0.4:
   version "1.0.9"
   resolved "https://registry.yarnpkg.com/bson/-/bson-1.0.9.tgz#12319f8323b1254739b7c6bef8d3e89ae05a2f57"
@@ -4157,6 +4162,11 @@ media-typer@0.3.0:
   resolved "https://registry.yarnpkg.com/media-typer/-/media-typer-0.3.0.tgz#8710d7af0aa626f8fffa1ce00168545263255748"
   integrity sha1-hxDXrwqmJvj/+hzgAWhUUmMlV0g=
 
+memory-pager@^1.0.2:
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/memory-pager/-/memory-pager-1.5.0.tgz#d8751655d22d384682741c972f2c3d6dfa3e66b5"
+  integrity sha512-ZS4Bp4r/Zoeq6+NLJpP+0Zzm0pR8whtGPf1XExKLJBAczGMnSi3It14OiNCStjQjM6NU1okjQGSxgEZN8eBYKg==
+
 merge-descriptors@1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/merge-descriptors/-/merge-descriptors-1.0.1.tgz#b00aaa556dd8b44568150ec9d1b953f3f90cbb61"
@@ -4304,13 +4314,16 @@ mongodb-core@3.0.4:
     bson "~1.0.4"
     require_optional "^1.0.1"
 
-mongodb-core@3.0.6:
-  version "3.0.6"
-  resolved "https://registry.yarnpkg.com/mongodb-core/-/mongodb-core-3.0.6.tgz#c1bf0ab868ece5b1d90917b58d7a8855cd8ba6ff"
-  integrity sha512-EIaEyA4DEft4je4Hfa+CDswKdFhlev9V9o5KJo/nITgG6KNKz5Rxg5ZuMGEjGkMwFkydFQ3Kz0CxZ18AXhRrEg==
+mongodb-core@3.1.11:
+  version "3.1.11"
+  resolved "https://registry.yarnpkg.com/mongodb-core/-/mongodb-core-3.1.11.tgz#b253038dbb4d7329f3d1c2ee5400bb0c9221fde5"
+  integrity sha512-rD2US2s5qk/ckbiiGFHeu+yKYDXdJ1G87F6CG3YdaZpzdOm5zpoAZd/EKbPmFO6cQZ+XVXBXBJ660sSI0gc6qg==
   dependencies:
-    bson "~1.0.4"
+    bson "^1.1.0"
     require_optional "^1.0.1"
+    safe-buffer "^5.1.2"
+  optionalDependencies:
+    saslprep "^1.0.0"
 
 mongodb@3.0.4:
   version "3.0.4"
@@ -4319,12 +4332,13 @@ mongodb@3.0.4:
   dependencies:
     mongodb-core "3.0.4"
 
-mongodb@3.0.6:
-  version "3.0.6"
-  resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-3.0.6.tgz#72d2444b14f9784869e0c33436c49c8dca5083e4"
-  integrity sha512-nEg7SnzcyobArDTXEqvI1BasY6Z45h1lyBtVMCS9gRTkbtwrDn6WcLRa+MVRYufrJXxQPkAiYJQ94eCUzit0EQ==
+mongodb@3.1.13:
+  version "3.1.13"
+  resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-3.1.13.tgz#f8cdcbb36ad7a08b570bd1271c8525753f75f9f4"
+  integrity sha512-sz2dhvBZQWf3LRNDhbd30KHVzdjZx9IKC0L+kSZ/gzYquCF5zPOgGqRz6sSCqYZtKP2ekB4nfLxhGtzGHnIKxA==
   dependencies:
-    mongodb-core "3.0.6"
+    mongodb-core "3.1.11"
+    safe-buffer "^5.1.2"
 
 mongoose-legacy-pluralize@1.0.2:
   version "1.0.2"
@@ -5491,6 +5505,13 @@ safe-regex@^1.1.0:
   resolved "https://registry.yarnpkg.com/safer-buffer/-/safer-buffer-2.1.2.tgz#44fa161b0187b9549dd84bb91802f9bd8385cd6a"
   integrity sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==
 
+saslprep@^1.0.0:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/saslprep/-/saslprep-1.0.3.tgz#4c02f946b56cf54297e347ba1093e7acac4cf226"
+  integrity sha512-/MY/PEMbk2SuY5sScONwhUDsV2p77Znkb/q3nSVstq/yQzYJOH/Azh29p9oJLsl3LnQwSvZDKagDGBsBwSooag==
+  dependencies:
+    sparse-bitfield "^3.0.3"
+
 sax@^1.2.4:
   version "1.2.4"
   resolved "https://registry.yarnpkg.com/sax/-/sax-1.2.4.tgz#2816234e2378bddc4e5354fab5caa895df7100d9"
@@ -5698,6 +5719,13 @@ source-map@^0.6.0, source-map@^0.6.1, source-map@~0.6.1:
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.6.1.tgz#74722af32e9614e9c287a8d0bbde48b5e2f1a263"
   integrity sha512-UjgapumWlbMhkBgzT7Ykc5YXUT46F0iKu8SGXq0bcwP5dz/h0Plj6enJqjz1Zbq2l5WaqYnrVbwWOWMyF3F47g==
+
+sparse-bitfield@^3.0.3:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/sparse-bitfield/-/sparse-bitfield-3.0.3.tgz#ff4ae6e68656056ba4b3e792ab3334d38273ca11"
+  integrity sha1-/0rm5oZWBWuks+eSqzM004JzyhE=
+  dependencies:
+    memory-pager "^1.0.2"
 
 spawn-command@^0.0.2-1:
   version "0.0.2-1"
